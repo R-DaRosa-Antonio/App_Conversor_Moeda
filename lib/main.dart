@@ -40,10 +40,21 @@ class _ConversorTelaState extends State<ConversorTela> {
           fontWeight: FontWeight.bold,
           ),
         ),
-
         backgroundColor: Colors.teal,
         centerTitle: true,
+
+      actions: [
+        IconButton(
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HistoricoTela()));
+            },
+            icon: Icon(Icons.history))
+      ],
       ),
+
+
       body: Center(
         child: GestureDetector(
           onTap: alternarConversao,
@@ -62,6 +73,25 @@ class _ConversorTelaState extends State<ConversorTela> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class HistoricoTela extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Histórico ou Filtros ou outra coisa'),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+      ),
+      body: Center(
+        child: Text(
+          'Histórico ou Filtros de busca ou Outra coisa ainda',
+          style: TextStyle(fontSize: 30),
         ),
       ),
     );

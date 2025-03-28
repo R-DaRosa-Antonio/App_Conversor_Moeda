@@ -23,9 +23,14 @@ class ConversorTela extends StatefulWidget {
 class _ConversorTelaState extends State<ConversorTela> {
   bool realParaDolar = true;
 
+  final TextEditingController _controllerOrigem = TextEditingController();
+  final TextEditingController _controllerDestino = TextEditingController();
+
   void alternarConversao() {
     setState(() {
       realParaDolar = !realParaDolar;
+      _controllerOrigem.clear();
+      _controllerDestino.clear();
     });
   }
 
@@ -35,63 +40,108 @@ class _ConversorTelaState extends State<ConversorTela> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Conversor de Moeda',
-          style: TextStyle(fontSize: 30,
-          fontWeight: FontWeight.bold,
-          ),
+        title: Text(
+          'Conversor de Moeda',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green.shade700,
         centerTitle: true,
-
-      actions: [
-        IconButton(
-            onPressed: (){
+        actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HistoricoTela()));
+                context,
+                MaterialPageRoute(builder: (context) => HistoricoTela()),
+              );
             },
-            icon: Icon(Icons.history))
-      ],
+          )
+        ],
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
 
 
-      body: Center(
-        child: GestureDetector(
-          onTap: alternarConversao,
-          child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.teal.shade100,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              titulo,
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            // Campo de entrada (origem)
+            TextField(
+              controller: _controllerOrigem,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: realParaDolar ? 'Valor em Reais' : 'Valor em Dólares',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.attach_money),
               ),
             ),
-          ),
+            SizedBox(height: 20),
+
+            // Campo de resultado (destino)
+            TextField(
+              controller: _controllerDestino,
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: realParaDolar ? 'Valor em Dólares' : 'Valor em Reais',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.swap_horiz),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Botão de alternar direção
+            ElevatedButton(
+              onPressed: alternarConversao,
+              child: Text('Alternar: $titulo',
+                style: TextStyle(color: Colors.black,
+                fontWeight: FontWeight.bold),
+                ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green.shade600,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+            SizedBox(height: 40),
+
+            // Placeholder para gráfico
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.green),
+              ),
+              child: Center(
+                child: Text(
+                  '',
+                  style: TextStyle(color: Colors.green.shade900),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
+// Tela de histórico (sem alterações)
 class HistoricoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Histórico ou Filtros ou outra coisa'),
+        title: Text('Histórico'),
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green.shade700,
       ),
       body: Center(
         child: Text(
-          'Histórico ou Filtros de busca ou Outra coisa ainda',
-          style: TextStyle(fontSize: 30),
+          'Histórico ou filtros aparecerão aqui.',
+          style: TextStyle(fontSize: 20),
         ),
       ),
     );
